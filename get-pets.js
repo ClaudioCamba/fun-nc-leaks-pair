@@ -1,7 +1,7 @@
 const https = require('node:https');
 const fs = require('fs/promises')
-const usernameInterests = [];
-const interestFile = [];
+const usernamePets = [];
+const petsFile = [];
 
 // reading ----------------------------------------------------------------
 const readContent = async (filename)=>{
@@ -23,15 +23,16 @@ function getInterests(){
             for (let i = 0; i < actualData.length; i++) {
                 const element = actualData[i];
                 // console.log(element.username)
-                usernameInterests.push(element.username);
+                usernamePets.push(element.username);
             }
            // request ----------------------------------------------------------------
-            for (let i = 0; i < usernameInterests.length; i++) {
-                const element = usernameInterests[i];
+            let countCalls = 0;
+            for (let i = 0; i < usernamePets.length; i++) {
+                const element = usernamePets[i];
                 
                 const options = {
                     hostname: 'nc-leaks.herokuapp.com',
-                    path: `/api/people/${element}/interests`,
+                    path: `/api/people/${element}/pets`,
                     method: 'GET',
                 }
 
@@ -45,10 +46,14 @@ function getInterests(){
 
                     response.on('end', () => {
                         const actualData = JSON.parse(bodyJSON);
-                        interestFile.push(actualData.person);
-                        if (interestFile.length === usernameInterests.length){
-                            console.log(interestFile)
-                            writeContent('interests.json', JSON.stringify(interestFile))
+                        countCalls++;
+                        if(actualData.hasOwnProperty('person')){
+                            petsFile.push(actualData.person);
+                        };
+                       
+                        if (countCalls === usernamePets.length){
+                            writeContent('pets.json', JSON.stringify(petsFile))
+                            console.log(petsFile);
                         }
                     });
                 })

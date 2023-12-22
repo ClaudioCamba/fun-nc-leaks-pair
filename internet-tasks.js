@@ -1,15 +1,15 @@
 const https = require('node:https');
 const fs = require('fs/promises');
 
+const writeContent = async (filename, data)=>{
+    const sendInfo = await fs.writeFile(`./${filename}`,`${data}`, `utf8`);
+    return sendInfo;
+}
+
 const options = {
     hostname: 'nc-leaks.herokuapp.com',
     path: '/api/people',
     method: 'GET',
-}
-
-const writeContent = async (filename, data)=>{
-    const sendInfo = await fs.writeFile(`./${filename}`,`${data}`, `utf8`);
-    return sendInfo;
 }
 
 const req = https.request(options, (response) => {
