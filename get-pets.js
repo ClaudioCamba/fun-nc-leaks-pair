@@ -15,7 +15,7 @@ const writeContent = async (filename, data)=>{
 }
 
 // get interest ----------------------------------------------------------------
-function getInterests(){
+function getPets(){
     readContent('northcoders.json')
         .then((data) => {
             const actualData = JSON.parse(data.content)
@@ -68,6 +68,4 @@ function getInterests(){
     })
 }
 
-getInterests();
-
-
+module.exports = getPets;

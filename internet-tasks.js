@@ -40,3 +40,5 @@ req.on('error', (err) => {
 })
 
 req.end()
+
+module.exports = req;
